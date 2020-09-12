@@ -66,14 +66,17 @@
 #include "gmock/gmock-spec-builders.h"
 #include "gmock/internal/gmock-port.h"
 
-namespace testing {
+namespace testing
+{
 
 template <class MockClass>
-class NiceMock : public MockClass {
- public:
-  NiceMock() : MockClass() {
-    ::testing::Mock::AllowUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+class NiceMock : public MockClass
+{
+public:
+  NiceMock() : MockClass()
+  {
+    ::testing::Mock::AllowUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
   // Ideally, we would inherit base class's constructors through a using
@@ -84,34 +87,39 @@ class NiceMock : public MockClass {
   // Single argument constructor is special-cased so that it can be
   // made explicit.
   template <typename A>
-  explicit NiceMock(A&& arg) : MockClass(std::forward<A>(arg)) {
-    ::testing::Mock::AllowUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+  explicit NiceMock ( A&& arg ) : MockClass ( std::forward<A> ( arg ) )
+  {
+    ::testing::Mock::AllowUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
   template <typename A1, typename A2, typename... An>
-  NiceMock(A1&& arg1, A2&& arg2, An&&... args)
-      : MockClass(std::forward<A1>(arg1), std::forward<A2>(arg2),
-                  std::forward<An>(args)...) {
-    ::testing::Mock::AllowUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+  NiceMock ( A1&& arg1, A2&& arg2, An&& ... args )
+    : MockClass ( std::forward<A1> ( arg1 ), std::forward<A2> ( arg2 ),
+                  std::forward<An> ( args )... )
+  {
+    ::testing::Mock::AllowUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
-  ~NiceMock() {  // NOLINT
-    ::testing::Mock::UnregisterCallReaction(
-        internal::ImplicitCast_<MockClass*>(this));
+  ~NiceMock()    // NOLINT
+  {
+    ::testing::Mock::UnregisterCallReaction (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
- private:
-  GTEST_DISALLOW_COPY_AND_ASSIGN_(NiceMock);
+private:
+  GTEST_DISALLOW_COPY_AND_ASSIGN_ ( NiceMock );
 };
 
 template <class MockClass>
-class NaggyMock : public MockClass {
- public:
-  NaggyMock() : MockClass() {
-    ::testing::Mock::WarnUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+class NaggyMock : public MockClass
+{
+public:
+  NaggyMock() : MockClass()
+  {
+    ::testing::Mock::WarnUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
   // Ideally, we would inherit base class's constructors through a using
@@ -122,34 +130,39 @@ class NaggyMock : public MockClass {
   // Single argument constructor is special-cased so that it can be
   // made explicit.
   template <typename A>
-  explicit NaggyMock(A&& arg) : MockClass(std::forward<A>(arg)) {
-    ::testing::Mock::WarnUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+  explicit NaggyMock ( A&& arg ) : MockClass ( std::forward<A> ( arg ) )
+  {
+    ::testing::Mock::WarnUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
   template <typename A1, typename A2, typename... An>
-  NaggyMock(A1&& arg1, A2&& arg2, An&&... args)
-      : MockClass(std::forward<A1>(arg1), std::forward<A2>(arg2),
-                  std::forward<An>(args)...) {
-    ::testing::Mock::WarnUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+  NaggyMock ( A1&& arg1, A2&& arg2, An&& ... args )
+    : MockClass ( std::forward<A1> ( arg1 ), std::forward<A2> ( arg2 ),
+                  std::forward<An> ( args )... )
+  {
+    ::testing::Mock::WarnUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
-  ~NaggyMock() {  // NOLINT
-    ::testing::Mock::UnregisterCallReaction(
-        internal::ImplicitCast_<MockClass*>(this));
+  ~NaggyMock()    // NOLINT
+  {
+    ::testing::Mock::UnregisterCallReaction (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
- private:
-  GTEST_DISALLOW_COPY_AND_ASSIGN_(NaggyMock);
+private:
+  GTEST_DISALLOW_COPY_AND_ASSIGN_ ( NaggyMock );
 };
 
 template <class MockClass>
-class StrictMock : public MockClass {
- public:
-  StrictMock() : MockClass() {
-    ::testing::Mock::FailUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+class StrictMock : public MockClass
+{
+public:
+  StrictMock() : MockClass()
+  {
+    ::testing::Mock::FailUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
   // Ideally, we would inherit base class's constructors through a using
@@ -160,26 +173,29 @@ class StrictMock : public MockClass {
   // Single argument constructor is special-cased so that it can be
   // made explicit.
   template <typename A>
-  explicit StrictMock(A&& arg) : MockClass(std::forward<A>(arg)) {
-    ::testing::Mock::FailUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+  explicit StrictMock ( A&& arg ) : MockClass ( std::forward<A> ( arg ) )
+  {
+    ::testing::Mock::FailUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
   template <typename A1, typename A2, typename... An>
-  StrictMock(A1&& arg1, A2&& arg2, An&&... args)
-      : MockClass(std::forward<A1>(arg1), std::forward<A2>(arg2),
-                  std::forward<An>(args)...) {
-    ::testing::Mock::FailUninterestingCalls(
-        internal::ImplicitCast_<MockClass*>(this));
+  StrictMock ( A1&& arg1, A2&& arg2, An&& ... args )
+    : MockClass ( std::forward<A1> ( arg1 ), std::forward<A2> ( arg2 ),
+                  std::forward<An> ( args )... )
+  {
+    ::testing::Mock::FailUninterestingCalls (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
-  ~StrictMock() {  // NOLINT
-    ::testing::Mock::UnregisterCallReaction(
-        internal::ImplicitCast_<MockClass*>(this));
+  ~StrictMock()    // NOLINT
+  {
+    ::testing::Mock::UnregisterCallReaction (
+      internal::ImplicitCast_<MockClass*> ( this ) );
   }
 
- private:
-  GTEST_DISALLOW_COPY_AND_ASSIGN_(StrictMock);
+private:
+  GTEST_DISALLOW_COPY_AND_ASSIGN_ ( StrictMock );
 };
 
 // The following specializations catch some (relatively more common)
@@ -190,25 +206,25 @@ class StrictMock : public MockClass {
 // NaggyMock, and StrictMock cannot be nested.
 
 template <typename MockClass>
-class NiceMock<NiceMock<MockClass> >;
+class NiceMock<NiceMock<MockClass>>;
 template <typename MockClass>
-class NiceMock<NaggyMock<MockClass> >;
+class NiceMock<NaggyMock<MockClass>>;
 template <typename MockClass>
-class NiceMock<StrictMock<MockClass> >;
+class NiceMock<StrictMock<MockClass>>;
 
 template <typename MockClass>
-class NaggyMock<NiceMock<MockClass> >;
+class NaggyMock<NiceMock<MockClass>>;
 template <typename MockClass>
-class NaggyMock<NaggyMock<MockClass> >;
+class NaggyMock<NaggyMock<MockClass>>;
 template <typename MockClass>
-class NaggyMock<StrictMock<MockClass> >;
+class NaggyMock<StrictMock<MockClass>>;
 
 template <typename MockClass>
-class StrictMock<NiceMock<MockClass> >;
+class StrictMock<NiceMock<MockClass>>;
 template <typename MockClass>
-class StrictMock<NaggyMock<MockClass> >;
+class StrictMock<NaggyMock<MockClass>>;
 template <typename MockClass>
-class StrictMock<StrictMock<MockClass> >;
+class StrictMock<StrictMock<MockClass>>;
 
 }  // namespace testing
 

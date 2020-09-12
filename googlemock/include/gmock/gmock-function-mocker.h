@@ -43,19 +43,23 @@
 #include "gmock/internal/gmock-internal-utils.h"
 #include "gmock/internal/gmock-pp.h"
 
-namespace testing {
-namespace internal {
+namespace testing
+{
+namespace internal
+{
 template <typename T>
 using identity_t = T;
 
 template <typename MockType>
-const MockType* AdjustConstness_const(const MockType* mock) {
+const MockType* AdjustConstness_const ( const MockType* mock )
+{
   return mock;
 }
 
 template <typename MockType>
-MockType* AdjustConstness_(const MockType* mock) {
-  return const_cast<MockType*>(mock);
+MockType* AdjustConstness_ ( const MockType* mock )
+{
+  return const_cast<MockType*> ( mock );
 }
 
 }  // namespace internal
@@ -122,7 +126,7 @@ using internal::FunctionMocker;
       "unprotected comma.");                                           \
   static_assert(                                                       \
       ::testing::tuple_size<typename ::testing::internal::Function<    \
-              __VA_ARGS__>::ArgumentTuple>::value == _N,               \
+      __VA_ARGS__>::ArgumentTuple>::value == _N,               \
       "This method does not take " GMOCK_PP_STRINGIZE(                 \
           _N) " arguments. Parenthesize all types with unproctected commas.")
 
@@ -132,35 +136,35 @@ using internal::FunctionMocker;
 #define GMOCK_INTERNAL_MOCK_METHOD_IMPL(_N, _MethodName, _Constness,           \
                                         _Override, _Final, _NoexceptSpec,      \
                                         _CallType, _Signature)                 \
-  typename ::testing::internal::Function<GMOCK_PP_REMOVE_PARENS(               \
-      _Signature)>::Result                                                     \
-  GMOCK_INTERNAL_EXPAND(_CallType)                                             \
-      _MethodName(GMOCK_PP_REPEAT(GMOCK_INTERNAL_PARAMETER, _Signature, _N))   \
-          GMOCK_PP_IF(_Constness, const, ) _NoexceptSpec                       \
-          GMOCK_PP_IF(_Override, override, ) GMOCK_PP_IF(_Final, final, ) {    \
-    GMOCK_MOCKER_(_N, _Constness, _MethodName)                                 \
-        .SetOwnerAndName(this, #_MethodName);                                  \
-    return GMOCK_MOCKER_(_N, _Constness, _MethodName)                          \
-        .Invoke(GMOCK_PP_REPEAT(GMOCK_INTERNAL_FORWARD_ARG, _Signature, _N));  \
-  }                                                                            \
-  ::testing::MockSpec<GMOCK_PP_REMOVE_PARENS(_Signature)> gmock_##_MethodName( \
-      GMOCK_PP_REPEAT(GMOCK_INTERNAL_MATCHER_PARAMETER, _Signature, _N))       \
-      GMOCK_PP_IF(_Constness, const, ) {                                       \
-    GMOCK_MOCKER_(_N, _Constness, _MethodName).RegisterOwner(this);            \
-    return GMOCK_MOCKER_(_N, _Constness, _MethodName)                          \
-        .With(GMOCK_PP_REPEAT(GMOCK_INTERNAL_MATCHER_ARGUMENT, , _N));         \
-  }                                                                            \
-  ::testing::MockSpec<GMOCK_PP_REMOVE_PARENS(_Signature)> gmock_##_MethodName( \
-      const ::testing::internal::WithoutMatchers&,                             \
-      GMOCK_PP_IF(_Constness, const, )::testing::internal::Function<           \
-          GMOCK_PP_REMOVE_PARENS(_Signature)>*) const _NoexceptSpec {          \
-    return GMOCK_PP_CAT(::testing::internal::AdjustConstness_,                 \
-                        GMOCK_PP_IF(_Constness, const, ))(this)                \
-        ->gmock_##_MethodName(GMOCK_PP_REPEAT(                                 \
-            GMOCK_INTERNAL_A_MATCHER_ARGUMENT, _Signature, _N));               \
-  }                                                                            \
-  mutable ::testing::FunctionMocker<GMOCK_PP_REMOVE_PARENS(_Signature)>        \
-      GMOCK_MOCKER_(_N, _Constness, _MethodName)
+typename ::testing::internal::Function<GMOCK_PP_REMOVE_PARENS(               \
+    _Signature)>::Result                                                     \
+GMOCK_INTERNAL_EXPAND(_CallType)                                             \
+_MethodName(GMOCK_PP_REPEAT(GMOCK_INTERNAL_PARAMETER, _Signature, _N))   \
+GMOCK_PP_IF(_Constness, const, ) _NoexceptSpec                       \
+GMOCK_PP_IF(_Override, override, ) GMOCK_PP_IF(_Final, final, ) {    \
+  GMOCK_MOCKER_(_N, _Constness, _MethodName)                                 \
+  .SetOwnerAndName(this, #_MethodName);                                  \
+  return GMOCK_MOCKER_(_N, _Constness, _MethodName)                          \
+         .Invoke(GMOCK_PP_REPEAT(GMOCK_INTERNAL_FORWARD_ARG, _Signature, _N));  \
+}                                                                            \
+::testing::MockSpec<GMOCK_PP_REMOVE_PARENS(_Signature)> gmock_##_MethodName( \
+    GMOCK_PP_REPEAT(GMOCK_INTERNAL_MATCHER_PARAMETER, _Signature, _N))       \
+GMOCK_PP_IF(_Constness, const, ) {                                       \
+  GMOCK_MOCKER_(_N, _Constness, _MethodName).RegisterOwner(this);            \
+  return GMOCK_MOCKER_(_N, _Constness, _MethodName)                          \
+         .With(GMOCK_PP_REPEAT(GMOCK_INTERNAL_MATCHER_ARGUMENT, , _N));         \
+}                                                                            \
+::testing::MockSpec<GMOCK_PP_REMOVE_PARENS(_Signature)> gmock_##_MethodName( \
+    const ::testing::internal::WithoutMatchers&,                             \
+    GMOCK_PP_IF(_Constness, const, )::testing::internal::Function<           \
+    GMOCK_PP_REMOVE_PARENS(_Signature)>*) const _NoexceptSpec {          \
+  return GMOCK_PP_CAT(::testing::internal::AdjustConstness_,                 \
+                      GMOCK_PP_IF(_Constness, const, ))(this)                \
+         ->gmock_##_MethodName(GMOCK_PP_REPEAT(                                 \
+                               GMOCK_INTERNAL_A_MATCHER_ARGUMENT, _Signature, _N));               \
+}                                                                            \
+mutable ::testing::FunctionMocker<GMOCK_PP_REMOVE_PARENS(_Signature)>        \
+GMOCK_MOCKER_(_N, _Constness, _MethodName)
 
 #define GMOCK_INTERNAL_EXPAND(...) __VA_ARGS__
 
@@ -227,7 +231,7 @@ using internal::FunctionMocker;
 // maybe they can be simplified somehow.
 #define GMOCK_INTERNAL_IS_CALLTYPE(_arg) \
   GMOCK_INTERNAL_IS_CALLTYPE_I(          \
-      GMOCK_PP_CAT(GMOCK_INTERNAL_IS_CALLTYPE_HELPER_, _arg))
+                                         GMOCK_PP_CAT(GMOCK_INTERNAL_IS_CALLTYPE_HELPER_, _arg))
 #define GMOCK_INTERNAL_IS_CALLTYPE_I(_arg) GMOCK_PP_IS_ENCLOSED_PARENS(_arg)
 
 #define GMOCK_INTERNAL_GET_VALUE_CALLTYPE(_arg) \
@@ -253,9 +257,9 @@ using internal::FunctionMocker;
 // types.
 #define GMOCK_INTERNAL_SIGNATURE(_Ret, _Args)                                 \
   ::testing::internal::identity_t<GMOCK_PP_IF(GMOCK_PP_IS_BEGIN_PARENS(_Ret), \
-                                              GMOCK_PP_REMOVE_PARENS,         \
-                                              GMOCK_PP_IDENTITY)(_Ret)>(      \
-      GMOCK_PP_FOR_EACH(GMOCK_INTERNAL_GET_TYPE, _, _Args))
+      GMOCK_PP_REMOVE_PARENS,         \
+      GMOCK_PP_IDENTITY)(_Ret)>(      \
+                                      GMOCK_PP_FOR_EACH(GMOCK_INTERNAL_GET_TYPE, _, _Args))
 
 #define GMOCK_INTERNAL_GET_TYPE(_i, _, _elem)                          \
   GMOCK_PP_COMMA_IF(_i)                                                \
@@ -291,7 +295,7 @@ using internal::FunctionMocker;
 
 #define GMOCK_INTERNAL_MATCHER_O(_i, ...)                          \
   const ::testing::Matcher<typename ::testing::internal::Function< \
-      __VA_ARGS__>::template Arg<_i>::type>&
+  __VA_ARGS__>::template Arg<_i>::type>&
 
 #define MOCK_METHOD0(m, ...) GMOCK_INTERNAL_MOCK_METHODN(, , m, 0, __VA_ARGS__)
 #define MOCK_METHOD1(m, ...) GMOCK_INTERNAL_MOCK_METHODN(, , m, 1, __VA_ARGS__)

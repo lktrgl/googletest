@@ -28,13 +28,13 @@
 // Requires: the number of arguments after expansion is at most 15.
 #define GMOCK_PP_NARG(...) \
   GMOCK_PP_INTERNAL_16TH(  \
-      (__VA_ARGS__, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
+                           (__VA_ARGS__, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0))
 
 // Returns 1 if the expansion of arguments has an unprotected comma. Otherwise
 // returns 0. Requires no more than 15 unprotected commas.
 #define GMOCK_PP_HAS_COMMA(...) \
   GMOCK_PP_INTERNAL_16TH(       \
-      (__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0))
+                                (__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0))
 
 // Returns the first argument.
 #define GMOCK_PP_HEAD(...) GMOCK_PP_INTERNAL_HEAD((__VA_ARGS__, unusedArg))
@@ -154,7 +154,7 @@
 #define GMOCK_PP_INTERNAL_CAT_5(_1, _2, _3, _4, _5) _1##_2##_3##_4##_5
 #define GMOCK_PP_INTERNAL_IS_EMPTY(_1, _2, _3, _4)                             \
   GMOCK_PP_HAS_COMMA(GMOCK_PP_INTERNAL_CAT_5(GMOCK_PP_INTERNAL_IS_EMPTY_CASE_, \
-                                             _1, _2, _3, _4))
+                     _1, _2, _3, _4))
 #define GMOCK_PP_INTERNAL_IS_EMPTY_CASE_0001 ,
 #define GMOCK_PP_INTERNAL_IF_1(_Then, _Else) _Then
 #define GMOCK_PP_INTERNAL_IF_0(_Then, _Else) _Else
@@ -167,7 +167,7 @@
 #define GMOCK_PP_INTERNAL_INTERNAL_16TH(_1, _2, _3, _4, _5, _6, _7, _8, _9, \
                                         _10, _11, _12, _13, _14, _15, _16,  \
                                         ...)                                \
-  _16
+_16
 #define GMOCK_PP_INTERNAL_16TH(_Args) \
   GMOCK_PP_IDENTITY(GMOCK_PP_INTERNAL_INTERNAL_16TH _Args)
 #define GMOCK_PP_INTERNAL_INTERNAL_HEAD(_1, ...) _1
